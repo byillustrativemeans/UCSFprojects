@@ -1,0 +1,1169 @@
+---
+title: "Mathematical Modeling to Explore Shorter Multi-Drug Therapy Options for Active Pulmonary Tuberculosis"
+subtitle: "Charts for publication" 
+author: "Natasha Strydom"
+date: "`r Sys.Date()`"
+output:
+  html_notebook:
+    toc: true
+    toc_float: true
+    theme: flatly
+    highlight: default
+---
+
+This document details the plots intended for publication of the manuscript "Mathematical Modeling to Explore Shorter Multi-Drug Therapy Options for Active Pulmonary Tuberculosis" primarily authored by John Fors.
+
+Data files were acquired by J Fors from the Systems Pharmacology Model established and implemented in C++ by J Fors.
+
+
+Figure notation follow that of the final manuscript. All plots were saved as pdf files and imported in Adobe Illustrator for final cleanup and improved legends and exported as .png files at x4 resolution.
+
+##Summary of figures
+Charts made using this document in sparkline format:
+```{r echo=FALSE, warning=FALSE}
+grid.arrange(Plot1 + 
+               ggtitle("Chart 1") +
+               theme_tufte(base_size = 10, base_family = "Helvetica") +
+               theme(axis.title=element_blank(),
+                     axis.text.y = element_blank(),
+                     axis.text.x = element_blank(),
+                     axis.ticks = element_blank(),
+                     strip.text = element_blank(),
+                     legend.position = "none"), 
+        Plot2+ 
+               ggtitle("Chart 2") +
+               theme_tufte(base_size = 10, base_family = "Helvetica") +
+               theme(axis.title=element_blank(),
+                     axis.text.y = element_blank(),
+                     axis.text.x = element_blank(),
+                     axis.ticks = element_blank(),
+                     strip.text = element_blank(),
+                     legend.position = "none"), 
+        Plot3+ 
+               ggtitle("Chart 3") +
+               theme_tufte(base_size = 10, base_family = "Helvetica") +
+               theme(axis.title=element_blank(),
+                     axis.text.y = element_blank(),
+                     axis.text.x = element_blank(),
+                     axis.ticks = element_blank(),
+                     strip.text = element_blank(),
+                     legend.position = "none"), 
+        Plot4+ 
+               ggtitle("Chart 4") +
+               theme_tufte(base_size = 10, base_family = "Helvetica") +
+               theme(axis.title=element_blank(),
+                     axis.text.y = element_blank(),
+                     axis.text.x = element_blank(),
+                     axis.ticks = element_blank(),
+                     strip.text = element_blank(),
+                     legend.position = "none"), 
+        Plot5+ 
+               ggtitle("Chart 5") +
+               theme_tufte(base_size = 10, base_family = "Helvetica") +
+               theme(axis.title=element_blank(),
+                     axis.text.y = element_blank(),
+                     axis.text.x = element_blank(),
+                     axis.ticks = element_blank(),
+                     strip.text = element_blank(),
+                     legend.position = "none"), 
+        Plot6+ 
+               ggtitle("Chart 6") +
+               theme_tufte(base_size = 10, base_family = "Helvetica") +
+               theme(axis.title=element_blank(),
+                     axis.text.y = element_blank(),
+                     axis.text.x = element_blank(),
+                     axis.ticks = element_blank(),
+                     strip.text = element_blank(),
+                     legend.position = "none"), 
+        Plot7+ 
+               ggtitle("Chart 7") +
+               theme_tufte(base_size = 10, base_family = "Helvetica") +
+               theme(axis.title=element_blank(),
+                     axis.text.y = element_blank(),
+                     axis.text.x = element_blank(),
+                     axis.ticks = element_blank(),
+                     strip.text = element_blank(),
+                     legend.position = "none"), 
+        Plot8+ 
+               ggtitle("Chart 8") +
+               theme_tufte(base_size = 10, base_family = "Helvetica") +
+               theme(axis.title=element_blank(),
+                     axis.text.y = element_blank(),
+                     axis.text.x = element_blank(),
+                     axis.ticks = element_blank(),
+                     strip.text = element_blank(),
+                     legend.position = "none"), 
+        Plot9+ 
+               ggtitle("Chart 9") +
+               theme_tufte(base_size = 10, base_family = "Helvetica") +
+               theme(axis.title=element_blank(),
+                     axis.text.y = element_blank(),
+                     axis.text.x = element_blank(),
+                     axis.ticks = element_blank(),
+                     strip.text = element_blank(),
+                     legend.position = "none"), 
+        PlotB+ 
+               ggtitle("Chart 12B") +
+               theme_tufte(base_size = 10, base_family = "Helvetica") +
+               theme(axis.title=element_blank(),
+                     axis.text.y = element_blank(),
+                     axis.text.x = element_blank(),
+                     axis.ticks = element_blank(),
+                     strip.text = element_blank(),
+                     legend.position = "none"))
+```
+
+
+##Libraries & themes
+###Libraries
+
+<style>
+.column-left{
+  float: left;
+  width: 75%;
+  text-align: left;
+}
+.column-right{
+  float: right;
+  width: 25%;
+  text-align: right;
+}
+.column-full{
+  float: left;
+  width: 100%;
+  text-align: left;
+}
+</style>
+
+<div class="column-left">
+```{r eval=FALSE, include=TRUE}
+library(dplyr)        #data wrangling
+library(ggplot2)      #data plotting
+library(ggthemes)     #improve plot aesthetics
+library(tidyr)        #gather function for multiple columns
+library(zoo)          #useful merge and nalocf function
+library(gridExtra)    #arrange multiple grid-based plots on a page
+```
+</div>
+
+<div class="column-right">
+*    
+Links to package documents:  
+  
+    
+[```dplyr```](http://dplyr.tidyverse.org/)   
+[```ggplot2```](http://ggplot2.org/)  
+[```ggthemes```](https://cran.r-project.org/web/packages/ggthemes/vignettes/ggthemes.html)  
+[```tidyr```](http://tidyr.tidyverse.org/)  
+[```zoo```](https://cran.r-project.org/web/packages/zoo/zoo.pdf)  
+[```gridExtra```](https://cran.r-project.org/web/packages/gridExtra/gridExtra.pdf)  
+
+</div>  
+
+<div class="column-full">
+###Porterfield color theme for charts
+Color blind friendly theme using dark grey, red, blue, yellow and dark blue
+```{r}
+porterfield <- c('#ca222c',  # red
+                 '#22a6d6',  # blue
+                 '#484848',  # dark grey
+                 '#ffca63',  # yellow
+                 '#2c7bb6')  # dark blue
+```
+
+
+
+###Gradient color theme for charts
+Blue color gradient for continuous data
+```{r}
+colorGradient <- c("#99c5df", #light blue
+                   "#3d89c1", #blue
+                   "#0a4595", #dark blue
+                   "black")   #black  
+```
+
+```{r}
+colorGradient2 <- c("#faae61", #light blue
+                   "#ca222c", #blue
+                   "#818181", #grey
+                   "black")   #black
+```
+
+
+##**Original Charts Revisited**
+
+##Chart 1 - No Treatment
+
+
+###Importing and cleaning data
+Data outputs for publication were saved as .csv files and consist of single columns for intracellular (B1) and extracellular (B2) and their respective q1 and q3 when no treatment is on board. Each row is equal to 1 hour.
+
+Reading files:
+```{r}
+file1 <- data.frame(B1 = scan('~/Dropbox/John_manuscript/Figure 2/Bt_I_mN.txt', skip=1, what = numeric(), sep = '\t'))
+file2 <- data.frame(B1q1 = scan('~/Dropbox/John_manuscript/Figure 2/Bt_I_q1N.txt', skip=1, what = numeric(), sep = '\t'))
+file3 <- data.frame(B1q3 = scan('~/Dropbox/John_manuscript/Figure 2/Bt_I_q3N.txt', skip=1, what = numeric(), sep = '\t'))
+file4 <- data.frame(B2 = scan('~/Dropbox/John_manuscript/Figure 2/Bt_II_mN.txt', skip=1, what = numeric(), sep = '\t'))
+file5 <- data.frame(B2q1 = scan('~/Dropbox/John_manuscript/Figure 2/Bt_II_q1N.txt', skip=1, what = numeric(), sep = '\t'))
+file6 <- data.frame(B2q3 = scan('~/Dropbox/John_manuscript/Figure 2/Bt_II_q3N.txt', skip=1, what = numeric(), sep = '\t'))
+
+```
+
+Merging columns into single data frame and adding time column
+```{r}
+a <- bind_cols(file1, file2, file3, file4, file5, file6)
+a <- a %>% 
+  mutate(time = seq(0, 600, by = 1)) %>% 
+  select(time, B1, B1q1, B1q3, B2, B2q1, B2q3)
+```
+
+Final data frame used
+```{r}
+a
+```
+
+
+
+###Final Plot
+Graphing the data using ggplot2
+```{r}
+Plot1 <- ggplot(a, aes(time, B1)) +
+  geom_ribbon(aes(ymin = B1q1, ymax = B1q3), alpha = 0.2, fill = "#21a6d5", size = 0.01) +
+  geom_line(color = "#21a6d5") +
+    geom_ribbon(aes(ymin = B2q1, ymax = B2q3), alpha = 0.2, fill = "#ca222c", size = 0.01) +
+  geom_line(data = a, aes(time, B2), color = "#ca222c") +
+  scale_y_log10(breaks = c(1, 10^2, 1e+4, 1e+6, 1e+8)) +
+  ylab("") +
+  xlab("Time (days since start of infection)") +
+  scale_x_continuous(limits = c(0, 600), breaks = seq(0, 600, by = 60)) +
+  theme_bw(base_family = "Helvetica") +
+  theme(legend.position = 'none')
+```
+
+```{r warning=FALSE}
+plot(Plot1)
+```
+**Figure 2. Bacterial dynamics of simulated acute TB infection.** 
+*Intra- (red) and extracellular (blue) bacteria count in lung tissue for acute TB infection without drug therapy, for 5000 patients, with infection starting on day 0. Respective shaded areas represent first and third quantiles of population. A bacterial inoculate of 100 CFU/mL infects extracellularly, triggering rapid intra- and extracellular bacterial growth. The acute infection approaches a steady-state level after 9 (270 days) to 12 months (360 days).* 
+
+##Chart 2 - Individual patient
+Data outputs for publication were saved as .csv files and data frame consists of 10 columns representing 10 individual patients. Each row is equal to 1 hour.
+
+Reading patient file:
+```{r}
+file7 <- read.table('~/Dropbox/John_manuscript/Figure 3/CalcCII2.csv', header = TRUE, sep = ',')
+```
+
+Adding time column and gathering 7 patient columns into single patient column with final wrangling:
+```{r}
+file7 <- mutate(file7, time = seq(1, 720, by = 1), days = time/24)
+b <- gather(file7, patient, Conc, 1:10)
+
+c <- b %>% 
+  group_by(patient) %>% 
+  summarise(cmax = max(Conc)) %>% 
+  inner_join(b, by ='patient') %>% 
+  arrange(cmax)
+
+d <- b %>% 
+  group_by(days) %>% 
+  summarise(med = median(Conc))
+```
+Final data frame
+```{r}
+c
+```
+
+```{r}
+d
+```
+
+
+###Final Plot
+Graphing the data using ggplot2
+```{r}
+Plot2 <- ggplot(c, aes(days, Conc, group = patient, color = patient)) +
+  geom_line(alpha = 0.5, size = 0.5, color = "#98AFC7") +
+  geom_line(data = d, aes(x = days, y = med, group = NULL),
+            colour = "#ca222c", size = 1.5) +
+  #scale_y_log10() +                                                    #option to log-scale
+  ylab("Concentration (mg/L)") +
+  xlab("Time (days since start of treatment)") +
+  scale_x_continuous(limits = c(1, 7), breaks = c(1, 2, 3, 4, 5, 6, 7)) +
+  theme_bw(base_family = "Helvetica") +
+  theme(legend.position = 'none')
+```
+
+```{r warning=FALSE}
+plot(Plot2)
+```
+**Figure 3. Individual patient drug concentration profiles show large variations.**
+*Intracellular concentration of rifampin for ten random patients during initial week of drug therapy. Grey lines represent individual patients while the red line represents the median for this group. Large variance is observed, for example, maximum concentration varies more than factor 2x among these patients.*
+
+##Chart 3 -  Drug profiles
+###Importing and cleaning data
+Data outputs for publication were saved as .csv files and data frames consists of single columns representing 4 drugs and their respective intracellular and extracellular data. Each row is equal to 1 hour.
+
+Reading files:
+```{r}
+file8 <- data.frame(Conc = scan('~/Dropbox/John_manuscript/Figure 4/concIDrug0_m.txt', skip=1, what = numeric(), sep = '\t'))
+file9 <- data.frame(Conc = scan('~/Dropbox/John_manuscript/Figure 4/concIDrug1_m.txt', skip=1, what = numeric(), sep = '\t'))
+file10 <- data.frame(Conc = scan('~/Dropbox/John_manuscript/Figure 4/concIDrug2_m.txt', skip=1, what = numeric(), sep = '\t'))
+file11 <- data.frame(Conc = scan('~/Dropbox/John_manuscript/Figure 4/concIDrug3_m.txt', skip=1, what = numeric(), sep = '\t'))
+file12 <- data.frame(Conc = scan('~/Dropbox/John_manuscript/Figure 4/concIIDrug0_m.txt', skip=1, what = numeric(), sep = '\t'))
+file13 <- data.frame(Conc = scan('~/Dropbox/John_manuscript/Figure 4/concIIDrug1_m.txt', skip=1, what = numeric(), sep = '\t'))
+file14 <- data.frame(Conc = scan('~/Dropbox/John_manuscript/Figure 4/concIIDrug2_m.txt', skip=1, what = numeric(), sep = '\t'))
+file15 <- data.frame(Conc = scan('~/Dropbox/John_manuscript/Figure 4/concIIDrug3_m.txt', skip=1, what = numeric(), sep = '\t'))
+
+```
+
+Adding time column and labeling dataframe drug and cpt.
+```{r}
+file8 <- file8 %>% 
+  mutate(Drug = "PZA", 
+         CPT = "Extra",
+         time = seq(0, 720, by = 1), 
+         days = time/24)
+file9 <- file9 %>% 
+  mutate(Drug = "INH", 
+         CPT = "Extra",
+         time = seq(0, 720, by = 1), 
+         days = time/24)
+file10 <- file10 %>% 
+  mutate(Drug = "RMP", 
+         CPT = "Extra",
+         time = seq(0, 720, by = 1), 
+         days = time/24)
+file11 <- file11 %>% 
+  mutate(Drug = "EMB", 
+         CPT = "Extra",
+         time = seq(0, 720, by = 1), 
+         days = time/24)
+
+file12 <- file12 %>% 
+  mutate(Drug = "PZA", 
+         CPT = "Intra",
+         time = seq(0, 720, by = 1), 
+         days = time/24)
+file13 <- file13 %>% 
+  mutate(Drug = "INH", 
+         CPT = "Intra",
+         time = seq(0, 720, by = 1), 
+         days = time/24)
+file14 <- file14 %>% 
+  mutate(Drug = "RMP", 
+         CPT = "Intra",
+         time = seq(0, 720, by = 1), 
+         days = time/24)
+file15 <- file15 %>% 
+  mutate(Drug = "EMB", 
+         CPT = "Intra",
+         time = seq(0, 720, by = 1), 
+         days = time/24)
+
+
+e <- bind_rows(file8, file9, file10, file11, file12, file13, file14, file15)
+```
+Final data frame
+```{r}
+e
+```
+
+###Final Plot
+Graphing the data using ggplot2
+```{r}
+Plot3 <- ggplot(e, aes(days, Conc, color = CPT)) +
+  geom_line() +
+  #scale_y_log10() +                                                   #option to log-scale
+  ylab("Concentraion (mg/L)") +
+  xlab("Time (days)") +
+  scale_color_manual(values = porterfield) +
+  scale_x_continuous(limits = c(0, 14), breaks = c(0, 2,4,6,8,10,12,14)) +
+  theme_bw(base_family = "Helvetica") +
+  facet_grid(Drug~CPT, scales = "free_y") +
+  theme(legend.position = 'none')
+```
+
+```{r warning=FALSE}
+plot(Plot3)
+```
+**Figure 4. Summary drug concentration profiles per drug.** 
+*Population average concentration of each drug as calculated for extra- (blue) and intracellular (red) compartment, for initial two weeks of drug therapy. This assumes standard therapy and 100% patient adherence.*  
+*Note: final graph was recolored and "data junk" removed in Adobe Illustrator*
+
+##Chart 4 - Standard therapy
+###Importing and cleaning data
+Data outputs for publication were saved as .csv files and consist of single columns for intracellular (B1) and extracellular (B2) and their respective q1 and q3 for treatment on board. Each row is equal to 1 hour.
+
+Reading files:
+```{r}
+file22 <- data.frame(AcuteTB = scan('~/Dropbox/John_manuscript/Figure 6/countAcuteTB.txt', skip=1, what = numeric(), sep = '\t'))
+file23 <- data.frame(ClearedTB = scan('~/Dropbox/John_manuscript/Figure 6/countClearedTB.txt', skip=1, what = numeric(), sep = '\t'))
+```
+
+Merging data frames and adding time column.
+```{r}
+g <- bind_cols(file22, file23)
+
+g <- mutate(g, time = seq(0, 600, by = 1))
+```
+Final data frame
+```{r}
+g
+```
+
+###Final Plot
+Graphing the data using ggplot2
+```{r}
+Plot5 <- ggplot(g, aes(time, AcuteTB*100)) +
+  geom_line(color = "#21a6d5") +
+  geom_line(data = g, aes(time, ClearedTB*100, color = "#ca222c")) +
+  #scale_y_log10() +
+  ylab("Percentage Population") +
+  xlab("Time (days since start of treatment)") +
+  scale_x_continuous(limits = c(0, 600), breaks = seq(0, 600, by = 60)) +
+  theme_bw(base_family = "Helvetica") +
+  theme(legend.position = 'none')
+```
+
+```{r warning=FALSE}
+Plot5
+```
+**Figure 5. Population TB treatment outcome with standard drug therapy.** 
+*Summary of outcome of median standard drug treatment of acute TB infection, based on simulation of 1000 patients, with standard drug therapy (2HREZ/4HR). The TB infection occurs on day 0, and drug therapy is started on day 180. Acute infection in red color, and cleared status in blue.*
+
+
+##Chart 5 - Treatment
+###Importing and cleaning data
+Data outputs for publication were saved as .csv files and consist of single columns for intracellular (B1) and extracellular (B2) and their respective q1 and q3 for treatment on board. Each row is equal to 1 hour.
+
+Reading files:
+```{r}
+file16 <- data.frame(B1 = scan("~/Dropbox/John_manuscript/Data/Figure5/Bt_I_m.txt", skip=1, what = numeric(), sep = '\t'))
+file17 <- data.frame(B1q1 = scan('~/Dropbox/John_manuscript/Data/Figure5/Bt_I_q1.txt', skip=1, what = numeric(), sep = '\t'))
+file18 <- data.frame(B1q3 = scan('~/Dropbox/John_manuscript/Data/Figure5/Bt_I_q3.txt', skip=1, what = numeric(), sep = '\t'))
+file19 <- data.frame(B2 = scan('~/Dropbox/John_manuscript/Data/Figure5/Bt_II_m.txt', skip=1, what = numeric(), sep = '\t'))
+file20 <- data.frame(B2q1 = scan('~/Dropbox/John_manuscript/Data/Figure5/Bt_II_q1.txt', skip=1, what = numeric(), sep = '\t'))
+file21 <- data.frame(B2q3 = scan('~/Dropbox/John_manuscript/Data/Figure5/Bt_II_q3.txt', skip=1, what = numeric(), sep = '\t'))
+```
+
+Merging data frames and adding time column.
+```{r}
+a2 <- bind_cols(file16, file17, file18, file19, file20, file21)
+
+a2 <- mutate(a2, time = seq(-180, 420, by = 1))
+```
+Final data frame
+```{r}
+a2
+```
+
+###Final Plot
+Graphing the data using ggplot2
+```{r}
+Plot4 <- ggplot(a2, aes(time, B1)) +
+  geom_ribbon(aes(ymin = B1q1, ymax = B1q3), alpha = 0.2, fill = "#21a6d5", size = 0.01) +
+  geom_line(color = "#21a6d5") +
+  geom_ribbon(aes(ymin = B2q1, ymax = B2q3), alpha = 0.2, fill = "#ca222c", size = 0.01) +
+  geom_line(data = a2, aes(time, B2, color = "#ca222c")) +
+  scale_y_log10() +
+  ylab("Bacterial Load (CFU/mL)") +
+  xlab("Time (days since start of treatment)") +
+  scale_x_continuous(limits = c(-180, 420), breaks = seq(-180, 420, by = 60)) +
+  theme_bw(base_family = "Helvetica") +
+  theme(legend.position = 'none')
+```
+
+```{r warning=FALSE}
+plot(Plot4)
+```
+**Figure 6. Intra- vs. extracellular bacterial load in acute TB infection.** 
+*Intra- and extracellular bacteria count in lung tissue for acute TB infection with standard drug therapy (2HREZ/4HR). The TB infection occurs on day 0, and drug therapy is started on day 180, triggering rapid intra- and extracellular bacterial growth. It is possible bacteria inside infected macrophages form a continued reservoir that may sustain extended infection.*
+
+##Chart 6 - Incomplete drug therapy
+###Importing and cleaning data
+Data outputs for publication were saved as .csv files and consist of single columns for clearedTB after different treatment conditions. Each row is equal to 1 hour.
+
+><span style="color:#21a6d5">Control data imported from previous Figure 6 file. Original file countClearedTB2.txt contains same median as countClearedTB1.txt</span>
+
+Reading files:
+```{r}
+file24 <- data.frame(TB1 = scan('~/Dropbox/John_manuscript/Figure 7/countClearedTB1.txt', skip = 1, what = numeric(), sep = '\t'))
+```  
+```{r}
+file25 <- data.frame(TB2 = scan('~/Dropbox/John_manuscript/Figure 6/countClearedTB.txt', skip=1, what = numeric(), sep = '\t'))
+```
+
+Merging data frames and adding time column.
+```{r}
+h <- bind_cols(file24, file25)
+
+h <- mutate(h, time = seq(-180, 420, by = 1))
+```
+Final data frame
+```{r}
+h
+```
+
+###Final Plot
+Graphing the data using ggplot2
+```{r}
+Plot6 <- ggplot(h, aes(time, TB1*100)) +
+  geom_line(color = "#21a6d5") +
+  geom_line(data = h, aes(time, TB2*100), color = "#ca222c") +
+  #scale_y_log10() +                                            #option to log-scale
+  ylab("Percentage Population Cured (%)") +
+  xlab("Time (days since start of treatment)") +
+  scale_x_continuous(limits = c(-180, 420), breaks = seq(-180, 420, by = 60)) +
+  scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 20)) +
+  theme_bw(base_family = "Helvetica") +
+  theme(legend.position = 'none')
+```
+
+```{r warning=FALSE}
+plot(Plot6)
+```
+**Figure 7. Reduced successful therapy outcome with incomplete drug therapy.** 
+*Comparison of patient outcomes for treatment of the median outcome of acute TB infection, with standard drug therapy (2HREZ/4HR) vs. median outcome of therapy excluding isoniazid. Based on simulation of 5000 patients.*
+
+##Chart 7 - Resistance
+###Importing and cleaning data
+Data outputs for publication were saved as .csv files and consist of single columns for resistant bacteria. Each row is equal to 1 hour.
+
+Reading files:
+```{r}
+file26 <- data.frame(Br1_1 = scan('~/Dropbox/John_manuscript/Figure 8/Br1_I_m1.txt', skip = 1, what = numeric(), sep = '\t'))
+file27 <- data.frame(Br1_2 = scan('~/Dropbox/John_manuscript/Figure 8/Br1_II_m1.txt', skip = 1, what = numeric(), sep = '\t'))
+file28 <- data.frame(Br1_3 = scan('~/Dropbox/John_manuscript/Figure 8/Br1_I_m2.txt', skip = 1, what = numeric(), sep = '\t'))
+file29 <- data.frame(Br1_4 = scan('~/Dropbox/John_manuscript/Figure 8/Br1_II_m2.txt', skip = 1, what = numeric(), sep = '\t'))
+```
+
+Merging data frames and adding time column.
+```{r}
+i <- bind_cols(file26, file27, file28, file29)
+i <- mutate(i, time = seq(-180, 420, by = 1))
+```
+
+
+Final data frame
+```{r}
+i
+```
+
+###Final Plot
+Graphing the data using ggplot2
+```{r}
+Plot7 <- ggplot(i, aes(time, Br1_2)) +
+  geom_line(color = "#21a6d5") +
+  geom_line(data = i, aes(time, Br1_4),color = "#ca222c") +
+  #scale_y_log10() +
+  ylab("Bacterial Load (CFU/ml)") +
+  xlab("Time (days since start of treatment)") +
+  scale_x_continuous(limits = c(-180, 420), breaks = seq(-180, 420, by = 60)) +
+  scale_y_log10() +
+  theme_bw(base_family = "Helvetica") +
+  theme(legend.position = 'none')
+```
+
+```{r warning=FALSE}
+plot(Plot7)
+```
+**Figure 8. Faster growth of drug-resistant bacterial strains due to incomplete drug therapy.** 
+*Comparison of growth of rifampin mono-resistant bacterial strain during treatment of acute TB infection, with the median outcome of standard drug therapy (2HREZ/4HR) vs. median outcome of therapy excluding isoniazid. Based on simulation of 5000 patients.* 
+
+##Chart 8 - Drug therapy scenarios
+###Importing and cleaning data
+Data outputs for publication were saved as .csv files and consist of single columns for different treatment outcomes. Each row is equal to 1 hour.
+
+Reading files:
+```{r}
+file30 <- data.frame(TB8 = scan('~/Dropbox/John_manuscript/Figure 9/countClearedTB8.txt', skip = 1, what = numeric(), sep = '\t'))
+file31 <- data.frame(TB5 = scan('~/Dropbox/John_manuscript/Figure 9/countClearedTB5.txt', skip = 1, what = numeric(), sep = '\t'))
+file32 <- data.frame(TB4 = scan('~/Dropbox/John_manuscript/Figure 9/countClearedTB4.txt', skip = 1, what = numeric(), sep = '\t'))
+file33 <- data.frame(TB1 = scan('~/Dropbox/John_manuscript/Figure 9/countClearedTB1.txt', skip = 1, what = numeric(), sep = '\t'))
+file34 <- data.frame(TB3 = scan('~/Dropbox/John_manuscript/Figure 9/countClearedTB3.txt', skip = 1, what = numeric(), sep = '\t'))
+```
+
+Merging data frames and adding time column.
+```{r}
+j <- bind_cols(file30, file31, file32, file33, file34)
+j <- mutate(j, time = seq(-180, 420, by = 1))
+```
+
+
+Final data frame
+```{r}
+j
+```
+
+###Final Plot
+Graphing the data using ggplot2
+```{r}
+Plot8 <- ggplot(j, aes(time, TB8*100)) +
+  geom_line(color = "#21a6d5") +
+  geom_line(data = j, aes(time, TB5*100),color = "#ca222c") +
+  geom_line(data = j, aes(time + 90, TB4*100),color = "#ffca63") + #time changed to match start of treatment
+  geom_line(data = j, aes(time, TB1*100),color = "#484848") +
+  geom_line(data = j, aes(time, TB3*100),color = "#2c7bb6") +
+  scale_y_continuous(limits = c(0, 100), breaks = c(0, 20, 40, 60, 80, 100)) +
+  ylab("Percentage Population Cured (%)") +
+  xlab("Time (days since start of treatment)") +
+  scale_x_continuous(limits = c(0, 420), breaks = seq(-180, 420, by = 60)) +
+  theme_bw(base_family = "Helvetica") +
+  theme(legend.position = 'none')
+```
+
+```{r warning=FALSE}
+plot(Plot8)
+```
+**Figure 9. Population TB treatment outcome for different drug therapy scenarios.** *Comparison of median patient outcomes for treatment of acute TB infection, with standard drug therapy (2HREZ/4HR) vs. therapy with increased rifampin dose (900 mg vs. 600 mg), earlier drug therapy start, shorter drug therapy duration, or less frequent drug dose in continuation phase. Based on simulation of 5000 patients. Note curve with earlier drug therapy start adjusted 90 days for easier comparison.*
+  
+*Note: Figure was cleaned up and colors changed in Adobe Illustrator for final manuscript.*
+
+##Chart 9 - Patient scenarios
+###Importing and cleaning data
+Data outputs for publication were saved as .csv files and consist of single columns for intracellular (B1) and extracellular (B2) and their respective q1 and q3 for treatment on board. Each row is equal to 1 hour.
+
+Reading files:
+```{r}
+file35 <- data.frame(TB7 = scan('~/Dropbox/John_manuscript/Figure 10/countClearedTB7.txt', skip = 1, what = numeric(), sep = '\t'))
+file36 <- data.frame(TB6 = scan('~/Dropbox/John_manuscript/Figure 10/countClearedTB6.txt', skip = 1, what = numeric(), sep = '\t'))
+file37 <- data.frame(TB1 = scan('~/Dropbox/John_manuscript/Figure 10/countClearedTB1.txt', skip = 1, what = numeric(), sep = '\t'))
+```
+
+Merging data frames and adding time column.
+```{r}
+k <- bind_cols(file35, file36, file37)
+k <- mutate(k, time = seq(-180, 420, by = 1))
+```
+
+
+Final data frame
+```{r}
+k
+```
+
+###Final Plot
+Graphing the data using ggplot2
+```{r}
+Plot9 <- ggplot(k, aes(time, TB6*100)) +
+  geom_line(color = "#21a6d5") +
+  geom_line(data = k, aes(time, TB1*100),color = "#ca222c") +
+  geom_line(data = k, aes(time, TB7*100),color = "#ffca63") +
+  scale_y_continuous(limits = c(0, 100), breaks = c(0, 20, 40, 60, 80, 100)) +
+  ylab("Percentage Population Cured (%)") +
+  xlab("Time (days since start of treatment)") +
+  scale_x_continuous(limits = c(0, 420), breaks = seq(0, 420, by = 60)) +
+  theme_bw(base_family = "Helvetica") +
+  theme(legend.position = 'none')
+```
+
+```{r warning=FALSE}
+plot(Plot9)
+```
+**Figure 10. Population TB treatment outcome for different patient scenarios.** *Comparison of median patient outcomes for treatment of acute TB infection, with standard drug therapy (2HREZ/4HR), for patients with reduced adherence level (average 0.880% vs. default 100%), or with reduced immune system function (0.550% of normal). Based on simulation of 5000 patients. Infection occurs on day 0, and drug therapy is started at day 180.*
+
+##**New Added Charts**
+A sensitivity analysis was performed on the model by William Fox using the C++ model. Variables will scaled by 0.1, 0.5, 2, and 10, and 10 iteration performed. The data for the final median acute TB was extracted and saved as .csv files.
+
+##Chart 10 - Drug Tornado plot
+###Importing and cleaning data
+The original ```.csv file``` was altered in Excel and removed the first row number column and renamed the CLEARED.TB column to omit the full stop. The column name MULTIPLIER was changed to parameterScaleFactor. 
+
+>The name CLEAREDTB was an artefact of the original sensitivity anlysis. The data is **Acute TB**, but the column name was not changed.
+
+Reading files:
+```{r}
+file38 <- read.csv("sensitivityA1.csv")
+```
+
+Data wrangling to obtain the median of the 10 iterations and filter data frame to individual drug data frames
+```{r}
+tornadoMedians <- file38 %>% 
+  group_by(DRUG, VARIABLE, parameterScaleFactor) %>% 
+  summarise(MEDIAN = median(CLEAREDTB)) %>% 
+  filter(parameterScaleFactor != 1) %>%  
+          filter(VARIABLE != "decayFactor") %>%
+         filter(VARIABLE != "killIntra") %>%
+         filter(VARIABLE != "killExtra") %>%
+         filter(VARIABLE != "growIntra") %>%
+         filter(VARIABLE != "growExtra") %>%
+         filter(VARIABLE != "factorFast") %>%
+         filter(VARIABLE != "factorSlow")
+
+tornadoMedians$parameterScaleFactor <- as.factor(tornadoMedians$parameterScaleFactor)
+
+#Rename VARIABLES
+
+tornadoMedians[tornadoMedians$VARIABLE == "KaMean", "NAME"] = "Ka (hr-1)"
+tornadoMedians[tornadoMedians$VARIABLE == "KeMean", "NAME"] = "Ke (hr-1)"
+tornadoMedians[tornadoMedians$VARIABLE == "V1Mean", "NAME"] = "V/F (L)"
+tornadoMedians[tornadoMedians$VARIABLE == "KeMult", "NAME"] = "auto-induction factor"
+tornadoMedians[tornadoMedians$VARIABLE == "KeTime", "NAME"] = "Time to max auto-induction (d)"
+tornadoMedians[tornadoMedians$VARIABLE == "highAcetFactor", "NAME"] = "Clearance multiplier for fast acetylators"
+tornadoMedians[tornadoMedians$VARIABLE == "IOfactor", "NAME"] = "Intracellular macrophage Conc multiplier"
+tornadoMedians[tornadoMedians$VARIABLE == "V1Mean", "NAME"] = "V/F (L)"
+tornadoMedians[tornadoMedians$VARIABLE == "GRfactor", "NAME"] = "Granuloma concentration multiplier"
+tornadoMedians[tornadoMedians$VARIABLE == "V1Mean", "NAME"] = "V/F (L)"
+tornadoMedians[tornadoMedians$VARIABLE == "EC50k", "NAME"] = "Bacterial killing EC50 (mg/L)"
+tornadoMedians[tornadoMedians$VARIABLE == "EC50g", "NAME"] = "Bacterial growth inhibition EC50 (mg/L)"
+tornadoMedians[tornadoMedians$VARIABLE == "ak", "NAME"] = "Bacterial killing Hill factor"
+tornadoMedians[tornadoMedians$VARIABLE == "ag", "NAME"] = "Bacterial growth inhibition Hill factor"
+tornadoMedians[tornadoMedians$VARIABLE == "ak", "NAME"] = "Bacterial killing Hill factor"
+tornadoMedians[tornadoMedians$VARIABLE == "mutationRate", "NAME"] = "Bacterial mutation rate (h-1)"
+tornadoMedians[tornadoMedians$VARIABLE == "kill_e0", "NAME"] = "Extracellular kill rate days < 0  (h-1)"
+tornadoMedians[tornadoMedians$VARIABLE == "kill_e1", "NAME"] = "Extracellular kill rate days 0-2  (h-1)"
+tornadoMedians[tornadoMedians$VARIABLE == "kill_e2", "NAME"] = "Extracellular kill rate days 3-15  (h-1)"
+tornadoMedians[tornadoMedians$VARIABLE == "kill_e3", "NAME"] = "Extracellular kill rate days 15+  (h-1)"
+tornadoMedians[tornadoMedians$VARIABLE == "kill_i0", "NAME"] = "Intracellular kill rate days < 0  (h-1)"
+tornadoMedians[tornadoMedians$VARIABLE == "kill_i1", "NAME"] = "Intracellular kill rate days 0-2  (h-1)"
+tornadoMedians[tornadoMedians$VARIABLE == "kill_i2", "NAME"] = "Intracellular kill rate days 3-15  (h-1)"
+tornadoMedians[tornadoMedians$VARIABLE == "kill_i3", "NAME"] = "Intracellular kill rate days 15+  (h-1)"
+tornadoMedians[tornadoMedians$VARIABLE == "multiplier", "NAME"] = "Granuloma multiplier"
+tornadoMedians[tornadoMedians$VARIABLE == "rise50", "NAME"] = "Granuloma time constant in"
+tornadoMedians[tornadoMedians$VARIABLE == "fall50", "NAME"] = "Granuloma time constant in"
+
+
+R <- filter(tornadoMedians, DRUG == "RIF", VARIABLE != "highAcetFactor"
+            )
+H <- filter(tornadoMedians, DRUG == "INH", VARIABLE != "KeMult")
+Z <- filter(tornadoMedians, DRUG == "PZA", VARIABLE != "highAcetFactor", VARIABLE != "KeMult")
+E <- filter(tornadoMedians, DRUG == "EMB", VARIABLE != "highAcetFactor", VARIABLE != "KeMult")
+```
+RIF data frame
+```{r}
+R
+```
+
+```{r}
+H
+```
+
+PZA data frame
+```{r}
+Z
+```
+
+EMB data frame
+```{r}
+E
+```
+
+
+###Building Final Plot
+
+Function to build consistent plot for all drugs where x = df and y = "df Title." Plot uses change in percentage points 
+
+```{r}
+mytornadoP <- function(x, y){
+  ggplot(x, aes(x = reorder(NAME, MEDIAN*100-5), y = MEDIAN*100-5, color = parameterScaleFactor)) +
+  geom_bar(position = "identity", stat = "identity", fill = "white") +
+  scale_color_manual(values = colorGradient2) +
+  coord_flip() +
+  ggtitle(y) +
+  theme_minimal(base_family = "Helvetica") +
+  xlab("Parameter") +
+  ylab("Change in Acute TB") +
+  theme(legend.position = "none")
+}
+```
+
+Function to build consistent plot for all drugs where x = df and y = "df Title." Plot uses fold change
+
+```{r}
+mytornadoF <- function(x, y){
+  ggplot(x, aes(x = reorder(NAME, MEDIAN), y = log2(MEDIAN/0.05), color = parameterScaleFactor)) +
+  geom_bar(position = "identity", stat = "identity", fill = "white") +
+  scale_color_manual(values = colorGradient2) +
+  coord_flip() +
+  ggtitle(y) +
+  theme_minimal(base_family = "Helvetica") +
+  xlab("Parameter") +
+  ylab("Median log2 fold change") +
+  theme(legend.position = "none")
+}
+```
+
+Individual change in percentage points plots
+```{r}
+#Plot for RIF
+
+PlotR <- mytornadoP(R, "RIF") +
+  scale_y_continuous(limits = c(-5, 100), breaks = c(-5, 0, 20, 40, 60, 80, 100))
+
+#Plot for INH
+
+PlotH <- mytornadoP(H, "INH") +
+  scale_y_continuous(limits = c(-2, 7), breaks = c(-2, 0, 2, 4, 6))
+
+#Plot for PZA
+
+PlotZ <- mytornadoP(Z, "PZA") +
+  scale_y_continuous(limits = c(-0.6, 1), breaks = c(-0.5, 0, 0.5, 1))
+
+#Plot for EMB
+
+PlotE <- mytornadoP(E, "EMB") +
+  scale_y_continuous(limits = c(-1.1, 2.15), breaks = c(-1, 0, 1, 2))
+```
+
+Individual fold change plots
+```{r}
+#Plot for RIF
+
+PlotRf <- mytornadoF(R, "RIF") 
+
+#Plot for INH
+
+PlotHf <- mytornadoF(H, "INH") 
+
+#Plot for PZA
+
+PlotZf <- mytornadoF(Z, "PZA")
+
+#Plot for EMB
+
+PlotEf <- mytornadoF(E, "EMB")
+```
+
+###Final Plot
+Plot arranged using package [```gridExtra```](https://cran.r-project.org/web/packages/gridExtra/index.html). Additional plot using legend was saved for clean up in Adobe Illustrator
+```{r warning=FALSE}
+grid.arrange(PlotR, PlotH, PlotZ, PlotE)
+```
+**Figure TBD. .** *TBD.*
+*Note: Plot was ouput and saved as PDF using [quartz()](https://www.rdocumentation.org/packages/grDevices/versions/3.4.1/topics/quartz) to obatin vector file that was scalable and easier to improve aesthetics in Adobe Illustrator*
+
+```{r warning=FALSE}
+grid.arrange(PlotRf, PlotHf, PlotZf, PlotEf)
+```
+
+##Chart 11 - Init Tornado Plot
+###Importing and cleaning data
+The original .csv file was altered in Excel and removed the first row number column and renamed the CLEARED.TB column to omit the full stop. The column name MULTIPLIER was changed to parameterScaleFactor. 
+
+>The name CLEAREDTB was an artefact of the original sensitivity anlysis. The data is **Acute TB**, but the column name was not changed.
+
+Read data:
+```{r}
+file39 <- read.csv("sensitivityOther.csv")
+```
+
+Data wrangling to obtain the median of the 10 iterations
+```{r}
+tornadoMediansO <- file39 %>% 
+  group_by(DRUG, VARIABLE, parameterScaleFactor) %>% 
+  summarise(MEDIAN = median(CLEAREDTB)) %>% 
+  filter(parameterScaleFactor != 1, 
+         VARIABLE != "adherenceStdv",
+         VARIABLE != "adherenceStdvDay",
+         VARIABLE != "adherenceSwitchDay",
+         VARIABLE != "bactThreshold",
+         VARIABLE != "bactThresholdRes",
+         VARIABLE != "growthLimit",
+         VARIABLE != "immuneStdv",
+         VARIABLE != "infI",
+         VARIABLE != "infII",
+         VARIABLE != "infIII",
+         VARIABLE != "infIV",
+         VARIABLE != "initialValueStdv",
+         VARIABLE != "parameterStdv",
+         VARIABLE != "persistTime",
+         VARIABLE != "nTime",
+         VARIABLE != "nPatients",
+         VARIABLE != "timeStepStdv",
+         VARIABLE != "nIterations",
+         VARIABLE != "nPopulations",
+         VARIABLE != "shareLowAcetylators",
+         VARIABLE != "therapyStart")
+
+tornadoMediansO$parameterScaleFactor <- as.factor(tornadoMediansO$parameterScaleFactor)
+
+```
+
+```{r}
+tornadoMediansO
+```
+
+```{r}
+write.csv(tornadoMediansO, file = "tornadoMediansO.csv")
+```
+
+Extra data wrangling from John Fors done in Excel. Included 1. added full parameter definitions under column name, 2. removed 10 and 5 scale factor for parameters that were ratios/level [0..1]
+
+```{r}
+tornadoMedians1 <- read.csv("tornadoMedians1.csv")
+tornadoMedians1$parameterScaleFactor <- as.factor(tornadoMedians1$parameterScaleFactor)
+```
+
+
+###Final Plot
+```{r}
+mytornado2 <- function(x, y){
+  ggplot(x, aes(x = reorder(VARIABLE, MEDIAN), y = MEDIAN*100-5, color = parameterScaleFactor)) +
+  geom_bar(position = "identity", stat = "identity", fill = "white") +
+  scale_color_manual(values = colorGradient2) +
+  coord_flip() +
+  ggtitle(y) +
+  theme_minimal(base_family = "Helvetica") +
+  xlab("Parameter") +
+  ylab("Change in Acute TB") +
+  theme(legend.position = "none")
+}
+```
+
+```{r}
+mytornado2f <- function(x, y){
+  ggplot(x, aes(x = reorder(Name, MEDIAN), y = log2(MEDIAN/0.05), color = parameterScaleFactor)) +
+  geom_bar(position = "identity", stat = "identity", fill = "white") +
+  scale_color_manual(values = colorGradient2) +
+  coord_flip() +
+  ggtitle(y) +
+  theme_minimal(base_family = "Helvetica") +
+  xlab("Parameter") +
+  ylab("Median log2 fold change") +
+  theme(legend.position = "none")
+}
+```
+
+```{r}
+Plot0 <- mytornado2(tornadoMediansO, "Init parameters") +
+  scale_y_continuous(limits = c(-10, 100), breaks = c(-10, 0, 20, 40, 60, 80, 100))
+```
+
+```{r}
+Plot0f <- mytornado2f(tornadoMedians1, "Init parameters")
+```
+
+```{r}
+plot(Plot0)
+```
+**Figure TBD. .** *TBD.*
+*Note: Plot was ouput and saved as PDF using [quartz()](https://www.rdocumentation.org/packages/grDevices/versions/3.4.1/topics/quartz) to obatin vector file that was scalable and easier to improve aesthetics in Adobe Illustrator*
+
+```{r}
+plot(Plot0f)
+```
+
+##Chart 12 - Immune Tornado plot
+###Importing and cleaning data
+The original .csv file was altered in Excel and removed the first row number column. The column name MULTIPLIER was changed to parameterScaleFactor. The column DRUG was renamed Immune and used to rename parameters according to their specific immune compartment effect, namely:
+"Bacteria"        "Cytokines"       "Dendritic_cells" "DLN_IL12"        "DLN_Tcell" "Macrophage"      "Tcells" 
+as stated by the setImmuneParameters.cpp file in the Source files of the Systems Model C++ tool. This was done in Excel as both T cells and Bacteria compartments had a parameter named "a2". In excel each iteration was saved in order and was manually changed in sequence rather than using R which grouped the a2 parameters as a single factor.
+
+Reading files:
+```{r}
+file40 <- read.csv("sensitivity_I.csv")
+```
+
+Data wrangling to obtain the median of the 10 iterations and filter data frame to individual drug data frames
+```{r}
+tornadoMediansI <- file40 %>% 
+  group_by(Immune, VARIABLE, parameterScaleFactor) %>% 
+  summarise(MEDIAN = median(MedianAcuteTB)) %>% 
+  filter(parameterScaleFactor != 1)
+
+tornadoMedians$parameterScaleFactor <- as.factor(tornadoMedians$parameterScaleFactor)
+
+B <- filter(tornadoMediansI, Immune == "Bacteria")
+C <- filter(tornadoMediansI, Immune == "Cytokines")
+D <- filter(tornadoMediansI, Immune == "Dendritic_cells")
+DT <- filter(tornadoMediansI, Immune == "DLN_Tcell")
+DI <- filter(tornadoMediansI, Immune == "DLN_IL12")
+M <- filter(tornadoMediansI, Immune == "Macrophage")
+Tc <- filter(tornadoMediansI, Immune == "Tcells")
+
+B$parameterScaleFactor <- as.factor(B$parameterScaleFactor)
+C$parameterScaleFactor <- as.factor(C$parameterScaleFactor)
+D$parameterScaleFactor <- as.factor(D$parameterScaleFactor)
+DT$parameterScaleFactor <- as.factor(DT$parameterScaleFactor)
+DI$parameterScaleFactor <- as.factor(DI$parameterScaleFactor)
+M$parameterScaleFactor <- as.factor(M$parameterScaleFactor)
+Tc$parameterScaleFactor <- as.factor(Tc$parameterScaleFactor)
+
+DLN <- bind_rows(DT, DI)
+
+```
+
+```{r}
+
+write.csv(B, "B.csv")
+write.csv(C, "C.csv")
+write.csv(D, "D.csv")
+write.csv(DT, "DT.csv")
+write.csv(DI, "DI.csv")
+write.csv(Tc, "Tc.csv")
+write.csv(M, "M.csv")
+
+```
+
+Files converted to .csv and imported to Excel to add Variable definition (time contraints)
+
+```{r}
+B1 <- read.csv("B1.csv")
+C1 <- read.csv("C1.csv")
+D1 <- read.csv("D1.csv")
+DT1 <- read.csv("DT1.csv")
+DI1 <- read.csv("DI1.csv")
+Tc1 <- read.csv("Tc1.csv")
+M1 <- read.csv("M1.csv")
+
+DLN1 <- read.csv("DLN.csv")
+
+B1$parameterScaleFactor <- as.factor(B1$parameterScaleFactor)
+C1$parameterScaleFactor <- as.factor(C1$parameterScaleFactor)
+D1$parameterScaleFactor <- as.factor(D1$parameterScaleFactor)
+DT1$parameterScaleFactor <- as.factor(DT1$parameterScaleFactor)
+DI1$parameterScaleFactor <- as.factor(DI1$parameterScaleFactor)
+Tc1$parameterScaleFactor <- as.factor(Tc1$parameterScaleFactor)
+M1$parameterScaleFactor <- as.factor(M1$parameterScaleFactor)
+DLN1$parameterScaleFactor <- as.factor(DLN1$parameterScaleFactor)
+```
+
+
+Bacteria data frame
+```{r}
+B
+```
+
+Cytokine data frame
+```{r}
+C
+```
+
+Dendritic cells data frame
+```{r}
+D
+```
+
+DLN data frame
+```{r}
+DLN
+```
+
+Macrophage cells data frame
+```{r}
+M
+```
+
+T cells data frame
+```{r}
+Tc
+```
+
+###Building Final Plot
+
+Function:```mytornado``` to build consistent plot was used for immune parameters 
+
+```{r}
+mytornadoIm <- function(x, y){
+  ggplot(x, aes(x = reorder(VARIABLE, MEDIAN*100-5), y = MEDIAN*100-5, color = parameterScaleFactor)) +
+  geom_bar(position = "identity", stat = "identity", fill = "white") +
+  scale_color_manual(values = colorGradient2) +
+  coord_flip() +
+  ggtitle(y) +
+  theme_minimal(base_family = "Helvetica") +
+  xlab("Parameter") +
+  ylab("Change in Acute TB") +
+  theme(legend.position = "none")
+}
+```
+
+```{r}
+mytornadoImf <- function(x, y){
+  ggplot(x, aes(x = reorder(Name, MEDIAN), y = log2(MEDIAN/0.05), color = parameterScaleFactor)) +
+  geom_bar(position = "identity", stat = "identity", fill = "white") +
+  scale_color_manual(values = colorGradient2) +
+  coord_flip() +
+  ggtitle(y) +
+  theme_minimal(base_family = "Helvetica") +
+  xlab("Parameter") +
+  ylab("Median log2 fold change") +
+  theme(legend.position = "none")
+}
+```
+
+Individual plots
+```{r}
+#Plot for Bacteria
+
+PlotB <- mytornadoIm(B, "Bacteria") +
+  scale_y_continuous(limits = c(-5, 100), breaks = c(-5, 0, 20, 40, 60, 80, 100))
+
+#Plot for Cytokines
+
+PlotC <- mytornadoIm(C, "Cytokines") +
+  scale_y_continuous(limits = c(-5, 70), breaks = c(-5, 0, 20, 40, 60))
+
+#Plot for dendritic cell
+
+PlotD <- mytornadoIm(D, "Dendritic cells") +
+  scale_y_continuous(limits = c(-5, 25), breaks = c(-5, 0, 5, 10, 15, 20, 25))
+
+#Plot for DLN
+
+PlotDLN <- mytornadoIm(DLN, "DLN") +
+  scale_y_continuous(limits = c(-5, 32), breaks = c(-5, 0, 10, 20, 30))
+
+#Plot for macrophage cells
+
+PlotM <- mytornadoIm(M, "Macrophages") +
+  scale_y_continuous(limits = c(-5, 68), breaks = c(-5, 0, 20, 40, 60))
+
+#Plot for T cells
+
+PlotTc <- mytornadoIm(Tc, "T cells") +
+  scale_y_continuous(limits = c(-5, 85), breaks = c(-5, 0, 20, 40, 60, 80))
+```
+
+```{r}
+#Plot for Bacteria
+
+PlotBf <- mytornadoImf(B1, "Bacteria")
+
+#Plot for Cytokines
+
+PlotCf <- mytornadoImf(C1, "Cytokines")
+
+#Plot for dendritic cell
+
+PlotDf <- mytornadoImf(D1, "Dendritic cells")
+
+#Plot for DLN
+
+PlotDLNf <- mytornadoImf(DLN1, "DLN")
+
+#Plot for macrophage cells
+
+PlotMf <- mytornadoImf(M1, "Macrophages")
+
+#Plot for T cells
+
+PlotTcf <- mytornadoImf(Tc1, "T cells")
+```
+
+###Final Plot
+Plot arranged using package [gridExtra](https://cran.r-project.org/web/packages/gridExtra/index.html). Additional plot using legend was saved for clean up in Adobe Illustrator
+```{r warning=FALSE}
+grid.arrange(PlotB, PlotC, PlotD, PlotDLN, PlotM, PlotTc)
+```
+**Figure TBD. .** *TBD.*
+*Note: Plot was ouput and saved as PDF using [```quartz()```](https://www.rdocumentation.org/packages/grDevices/versions/3.4.1/topics/quartz) to obtain vector file that was scalable and easier to improve aesthetics in Adobe Illustrator*
+
+```{r warning=FALSE}
+grid.arrange(PlotBf, PlotCf, PlotDf, PlotDLNf, PlotMf, PlotTcf)
+```
+
+```{r}
+
+PlotBf
+PlotCf
+PlotDf
+PlotDLNf
+PlotMf
+PlotTcf
+
+```
+
+
+</div> 
