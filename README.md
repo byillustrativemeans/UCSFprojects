@@ -1,3 +1,3 @@
 # UCSFprojects
 
-This repository contains projects that can be viewed publically
+This repository contains projects that can be viewed publicly
